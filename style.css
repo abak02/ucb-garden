@@ -650,6 +650,31 @@ header {
   font-weight: 600;
   font-size: 0.95rem;
 }
+.main-nav {
+  flex-grow: 1;
+  background: #fff;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  flex: 1;
+}
+
+.nav-item button {
+  width: 100%;
+  padding: 12px 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
 .ledger-item-val {
   font-weight: 700;
@@ -1046,30 +1071,235 @@ input:checked + .slider:before {
   #app-container {
     flex-direction: column;
   }
+  
+  .hide-on-mobile {
+    display: none;
+  }
+  
+  /* Fixed Sidebar - Make it horizontal at bottom */
   #sidebar {
     width: 100%;
     height: auto;
     border-right: none;
-    border-bottom: 1px solid var(--border);
-    padding: 1rem;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    border-top: 1px solid var(--border);
+    border-bottom: none;
+    padding: 0.5rem;
+    flex-direction: column;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: var(--bg-secondary);
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
   }
+  
   .brand-section {
-    margin-bottom: 0;
+    display: none; /* Hide brand on mobile to save space */
   }
+  
+  /* Show nav menu horizontally */
   .nav-menu {
-    display: none; /* In a real app we'd toggle a hamburger menu */
+    display: flex !important;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
   }
+  
+  .nav-item {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .nav-item button {
+    flex-direction: column;
+    padding: 0.5rem 0.25rem;
+    gap: 0.25rem;
+    font-size: 0.7rem;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .nav-item button i {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+  
+  .nav-item button span {
+    font-size: 0.65rem;
+    white-space: nowrap;
+  }
+  
   .sidebar-footer {
     display: none;
   }
-  header {
-    padding: 0 1rem;
+  
+  /* Add bottom padding to main content so it doesn't hide behind navbar */
+  #main-viewport {
+    margin-bottom: 65px;
   }
+  
+  header {
+    padding: 0 0.75rem;
+    height: 55px;
+  }
+  
   .content-view {
+    padding: 0.75rem;
+    padding-bottom: 1rem;
+  }
+  
+  .btn-primary {
+    padding: 0.4rem 0.6rem;
+    margin: 0;
+  }
+  
+  .btn-primary span {
+    display: none; /* Hide button text on mobile, show only icon */
+  }
+  
+  .btn-primary i {
+    margin: 0;
+    font-size: 1rem;
+  }
+  
+  /* Adjust month selector for mobile */
+  .month-selector-wrapper {
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .month-select, .year-select {
+    font-size: 0.75rem;
+  }
+  
+  /* Adjust KPI cards for mobile */
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .kpi-card {
+    padding: 0.85rem;
+  }
+  
+  .kpi-value {
+    font-size: 1.2rem;
+  }
+  
+  .kpi-title {
+    font-size: 0.7rem;
+  }
+  
+  .kpi-icon {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+  
+  /* Adjust visual section */
+  .visual-section {
+    gap: 0.75rem;
+  }
+  
+  .glass-panel {
+    padding: 0.85rem;
+  }
+  
+  .panel-title {
+    font-size: 0.9rem;
+  }
+  
+  /* Adjust table for horizontal scroll */
+  .table-responsive {
+    border-radius: 8px;
+  }
+  
+  .sheet-table th, 
+  .sheet-table td {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .table-input.num-input {
+    width: 60px;
+  }
+  
+  /* Adjust ledger boxes */
+  .ledgers-container {
+    gap: 0.75rem;
+  }
+  
+  .ledger-box {
+    padding: 0.85rem;
+  }
+  
+  .ledger-title {
+    font-size: 0.95rem;
+  }
+  
+  .ledger-item {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .ledger-item-name {
+    font-size: 0.8rem;
+  }
+  
+  .ledger-item-val {
+    font-size: 0.9rem;
+  }
+  
+  /* Adjust settings cards */
+  .settings-card {
     padding: 1rem;
+  }
+  
+  .settings-card-title {
+    font-size: 0.95rem;
+  }
+  
+  .settings-label {
+    font-size: 0.85rem;
+  }
+  
+  .settings-desc {
+    font-size: 0.7rem;
+  }
+  
+  .btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  
+  /* Modal adjustments */
+  .modal-content {
+    width: 95%;
+    padding: 1rem;
+  }/* Fix for any content hidden behind fixed navbar */
+  body {
+    padding-bottom: 0;
+  }
+  
+  /* Ensure the active state shows properly */
+  .nav-item.active button {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: white;
+    border-radius: 8px;
+  }
+  
+  /* Make sure the header buttons are visible */
+  .header-right {
+    gap: 0.5rem;
+  }
+  
+  /* Hide theme toggle on very small screens if needed */
+  @media (max-width: 480px) {
+    .hide-on-mobile {
+      display: none;
+    }
   }
 }
 
