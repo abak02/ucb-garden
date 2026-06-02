@@ -1,0 +1,1257 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Tiro+Bangla:ital,wght@0,400;1,400&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/tiro-bangla@5.0.8/index.min.css');
+
+
+:root {
+  /* Light Theme Variables */
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --accent-primary: #0d9488;
+  --accent-secondary: #0f766e;
+  --accent-glow: rgba(13, 148, 136, 0.15);
+  --success: #10b981;
+  --success-glow: rgba(16, 185, 129, 0.15);
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --danger-glow: rgba(239, 68, 68, 0.15);
+  --border: #e2e8f0;
+  --border-focus: #0d9488;
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  
+  
+  --font-bengali: 'Tiro Bangla', serif;
+  --sidebar-width: 260px;
+  --transition-speed: 0.3s;
+}
+
+[data-theme="dark"] {
+  /* Dark Theme Variables */
+  --bg-primary: #0b0f19;
+  --bg-secondary: #131c2e;
+  --bg-tertiary: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  --accent-primary: #14b8a6;
+  --accent-secondary: #0d9488;
+  --accent-glow: rgba(20, 184, 166, 0.25);
+  --success: #34d399;
+  --success-glow: rgba(52, 211, 153, 0.2);
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --danger-glow: rgba(248, 113, 113, 0.2);
+  --border: #334155;
+  --border-focus: #14b8a6;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  --glass-bg: rgba(19, 28, 46, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.05);
+}
+
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-interface), var(--font-bengali), sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+  overflow: hidden;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Bengali elements styling */
+.lang-bn, .font-bn {
+  font-family: var(--font-bengali) !important;
+  letter-spacing: 0px;
+}
+
+/* App Container Layout */
+#app-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+/* Sidebar */
+#sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+  z-index: 10;
+  transition: transform var(--transition-speed), background-color var(--transition-speed);
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  padding: 0 0.5rem;
+}
+
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 10px var(--accent-glow);
+}
+
+.brand-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.brand-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+  flex-grow: 1;
+}
+
+.nav-item button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-interface);
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.nav-item button i {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.nav-item button:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.nav-item button:hover i {
+  color: var(--accent-primary);
+}
+
+.nav-item.active button {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: white;
+  box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+.nav-item.active button i {
+  color: white;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sys-info {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* Main Content Viewport */
+#main-viewport {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+}
+
+/* Top Navigation Bar */
+header {
+  height: 70px;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  transition: background-color var(--transition-speed);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.month-selector-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--bg-tertiary);
+  padding: 0.4rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.month-select, .year-select {
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-interface);
+  font-size: 0.9rem;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+}
+
+.btn-icon:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+/* Content Views */
+.content-view {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  display: none;
+}
+
+.content-view.active {
+  display: block;
+}
+
+/* Card Components */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.kpi-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.kpi-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-primary);
+}
+
+.kpi-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.kpi-title {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.kpi-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.kpi-trend {
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.kpi-trend.up { color: var(--success); }
+.kpi-trend.down { color: var(--danger); }
+
+.kpi-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.kpi-card:nth-child(1) .kpi-icon {
+  background-color: var(--accent-glow);
+  color: var(--accent-primary);
+}
+
+.kpi-card:nth-child(2) .kpi-icon {
+  background-color: var(--danger-glow);
+  color: var(--danger);
+}
+
+.kpi-card:nth-child(3) .kpi-icon {
+  background-color: var(--success-glow);
+  color: var(--success);
+}
+
+/* Charts and Grid Layouts */
+.visual-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.glass-panel {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.panel-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Charts SVG implementation */
+.chart-container {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-top: 1rem;
+  position: relative;
+}
+
+.chart-bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  height: 100%;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.chart-bars {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+  justify-content: center;
+  align-items: flex-end;
+  height: 80%;
+}
+
+.chart-bar {
+  width: 20px;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.6s ease;
+  position: relative;
+}
+
+.chart-bar.income {
+  background: linear-gradient(to top, var(--accent-secondary), var(--accent-primary));
+}
+
+.chart-bar.expense {
+  background: linear-gradient(to top, #e11d48, var(--danger));
+}
+
+.chart-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+
+/* UI Tables & Spreadsheet Styles */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  background-color: var(--bg-secondary);
+}
+
+.sheet-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.sheet-table th {
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
+  font-weight: 600;
+  padding: 0.85rem 1rem;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+
+.sheet-table td {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.sheet-table tbody tr:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.sheet-table tbody tr.row-total {
+  background-color: var(--bg-tertiary);
+  font-weight: 700;
+  border-top: 2px solid var(--border);
+}
+
+.sheet-table tbody tr.row-total td {
+  border-bottom: 2px solid var(--border);
+}
+
+/* Table Inline Editing Inputs */
+.table-input {
+  width: 100%;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.table-input:hover {
+  border-color: var(--border);
+  background-color: var(--bg-primary);
+}
+
+.table-input:focus {
+  border-color: var(--border-focus);
+  background-color: var(--bg-secondary);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.table-input.num-input {
+  text-align: right;
+  width: 80px;
+}
+
+/* Hide spin arrows in number inputs */
+.table-input.num-input::-webkit-outer-spin-button,
+.table-input.num-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Badges for Payments */
+.badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.badge.paid {
+  background-color: var(--success-glow);
+  color: var(--success);
+}
+
+.badge.unpaid {
+  background-color: var(--danger-glow);
+  color: var(--danger);
+}
+
+.badge:hover {
+  filter: brightness(0.95);
+}
+
+/* Double-column Account Ledgers styles */
+.ledgers-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.ledger-box {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+}
+
+.ledger-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.75rem;
+}
+
+.ledger-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ledger-title.income { color: var(--accent-primary); }
+.ledger-title.expense { color: var(--danger); }
+
+.ledger-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.ledger-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background-color: var(--bg-tertiary);
+  transition: all 0.2s ease;
+}
+
+.ledger-item:hover {
+  border-color: var(--border-focus);
+}
+
+.ledger-item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.ledger-item-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.ledger-item-val {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* Modern Form styles */
+.form-inline {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex-grow: 1;
+}
+
+.form-input {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: inherit;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+.form-input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.btn-primary {
+  background-color: var(--accent-primary);
+  color: white;
+  border-color: var(--accent-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-secondary);
+  color: white;
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  color: white;
+  border-color: var(--danger);
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+  color: white;
+}
+
+.btn-sm {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  border-radius: 6px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Settings and Import/Export layout */
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.settings-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.settings-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--bg-tertiary);
+}
+
+.settings-row:last-child {
+  border-bottom: none;
+}
+
+.settings-label-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.settings-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Switch styling */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--border);
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--accent-primary);
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* Modal Popup Window */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-lg);
+  transform: scale(0.9);
+  transition: transform 0.25s ease;
+}
+
+.modal-overlay.active .modal-content {
+  transform: scale(1);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+.modal-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.modal-close:hover {
+  color: var(--text-primary);
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+
+/* Printable Sheet styling container (Mimics PDF Layout) */
+#printable-area {
+  display: none;
+  background: white;
+  color: black;
+  width: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* Print view header */
+.print-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.print-title {
+  font-size: 1.85rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-bengali);
+}
+
+.print-subtitle {
+  font-size: 1.05rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-bengali);
+}
+
+.print-divider {
+  border-top: 1.5px solid #000;
+  margin-bottom: 1.5rem;
+}
+
+/* Table styles specifically for PDF generation */
+.print-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  font-family: var(--font-bengali);
+}
+
+.print-table th, .print-table td {
+  border: 1px solid #777;
+  padding: 0.35rem 0.5rem;
+  text-align: center;
+}
+
+.print-table th {
+  background-color: #f3f4f6;
+  font-weight: 700;
+}
+
+.print-table td.text-left {
+  text-align: left;
+}
+
+.print-table td.text-right {
+  text-align: right;
+}
+
+.print-table tr.total-row {
+  font-weight: 700;
+  background-color: #fafafa;
+}
+
+/* Service signature line */
+.print-meta-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  font-family: var(--font-bengali);
+}
+
+.print-sheet-title {
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-decoration: underline;
+}
+
+.print-signature-placeholder {
+  border-top: 1px dotted #000;
+  padding-top: 0.25rem;
+  min-width: 200px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* Print grid of accounts (costs and income) */
+.print-accounts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  font-family: var(--font-bengali);
+  margin-top: 1.5rem;
+}
+
+.print-accounts-title {
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  border-bottom: 1.5px dashed #000;
+  padding-bottom: 0.25rem;
+}
+
+/* Helper to convert numbers to Bengali font inside CSS */
+.num-bn {
+  font-family: var(--font-bengali);
+}
+
+/* Responsive queries */
+@media (max-width: 1024px) {
+  .ledgers-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .visual-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  #app-container {
+    flex-direction: column;
+  }
+  #sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 1rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand-section {
+    margin-bottom: 0;
+  }
+  .nav-menu {
+    display: none; /* In a real app we'd toggle a hamburger menu */
+  }
+  .sidebar-footer {
+    display: none;
+  }
+  header {
+    padding: 0 1rem;
+  }
+  .content-view {
+    padding: 1rem;
+  }
+}
+
+/* Pixel-perfect Print Optimization Media Query */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    font-family: var(--font-bengali), serif;
+  }
+  
+  #app-container {
+    display: none !important;
+  }
+  
+  #printable-area {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+  }
+  
+  .print-header {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .print-title {
+    font-size: 1.6rem !important;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+  }
+  
+  .print-subtitle {
+    font-size: 0.95rem !important;
+    color: #222;
+    margin-bottom: 0.4rem;
+  }
+  
+  .print-divider {
+    border-top: 1.5px solid #000;
+    margin-bottom: 1rem;
+  }
+  
+  .print-table {
+    width: 100% !important;
+    table-layout: fixed !important; /* Force fixed layout to respect explicit widths */
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    font-size: 8pt !important;
+  }
+  
+  .print-table th, .print-table td {
+    border: 1px solid #444 !important;
+    padding: 4px 2px !important;
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  .print-table td.text-left {
+    text-align: left;
+    padding-left: 6px !important;
+  }
+  
+  /* Explicit widths for the 12 columns in A4 portrait to avoid horizontal cutoff */
+  .print-table th:nth-child(1), .print-table td:nth-child(1) { width: 3.5% !important; } /* No. */
+  .print-table th:nth-child(2), .print-table td:nth-child(2) { width: 22% !important; text-align: left; padding-left: 6px !important; white-space: normal; } /* Name */
+  .print-table th:nth-child(3), .print-table td:nth-child(3) { width: 8.5% !important; } /* Flat No. */
+  .print-table th:nth-child(4), .print-table td:nth-child(4) { width: 6.5% !important; } /* Electricity (reduced) */
+  .print-table th:nth-child(5), .print-table td:nth-child(5) { width: 7.5% !important; } /* Guard */
+  .print-table th:nth-child(6), .print-table td:nth-child(6) { width: 5.5% !important; } /* Sweeper */
+  .print-table th:nth-child(7), .print-table td:nth-child(7) { width: 7.5% !important; } /* Water */
+  .print-table th:nth-child(8), .print-table td:nth-child(8) { width: 7.5% !important; } /* Garage */
+  .print-table th:nth-child(9), .print-table td:nth-child(9) { width: 7.5% !important; } /* Dev */
+  .print-table th:nth-child(10), .print-table td:nth-child(10) { width: 8% !important; } /* Fest */
+  .print-table th:nth-child(11), .print-table td:nth-child(11) { width: 9% !important; } /* Total */
+  .print-table th:nth-child(12), .print-table td:nth-child(12) { width: 17% !important; } /* Signature (wide) */
+  
+  /* Prevent number cells and short headers from wrapping */
+  .print-table th:nth-child(4), .print-table td:nth-child(4),
+  .print-table th:nth-child(5), .print-table td:nth-child(5),
+  .print-table th:nth-child(6), .print-table td:nth-child(6),
+  .print-table th:nth-child(7), .print-table td:nth-child(7),
+  .print-table th:nth-child(8), .print-table td:nth-child(8),
+  .print-table th:nth-child(9), .print-table td:nth-child(9),
+  .print-table th:nth-child(10), .print-table td:nth-child(10),
+  .print-table th:nth-child(11), .print-table td:nth-child(11) {
+    white-space: nowrap;
+  }
+  
+  .print-table th {
+    background-color: #f2f2f2 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    font-weight: 700;
+  }
+  
+  .print-table tr.total-row {
+    font-weight: 700;
+    background-color: #fafafa !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .print-meta-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5rem; /* Substantial space above signature line for signing */
+    margin-bottom: 1.5rem;
+  }
+  
+  .print-sheet-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-decoration: underline;
+  }
+  
+  .print-signature-placeholder {
+    border-top: 1px dotted #000;
+    padding-top: 0.25rem;
+    min-width: 180px;
+    text-align: center;
+    font-size: 0.85rem;
+  }
+  
+  .print-accounts-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.2rem; /* Reduced gap to fit on A4 without cutting */
+    margin-top: 1rem;
+    page-break-inside: avoid;
+    width: 100% !important;
+  }
+  
+  .print-accounts-grid > div {
+    flex: 1 !important; /* Divide space equally and dynamically inside flex box */
+  }
+  
+  .print-accounts-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-align: center;
+    margin-bottom: 0.4rem;
+    border-bottom: 1.5px dashed #000;
+    padding-bottom: 0.2rem;
+  }
+
+  /* Style specifically for the bottom cost & earnings tables to prevent field names wrapping */
+  .print-accounts-grid .print-table {
+    table-layout: fixed !important;
+    width: 100% !important;
+  }
+
+  .print-accounts-grid .print-table th, 
+  .print-accounts-grid .print-table td {
+    padding: 6px 4px !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+
+  .print-accounts-grid .print-table td:nth-child(1) {
+    width: 60% !important;
+    text-align: left !important;
+    padding-left: 8px !important;
+    white-space: nowrap !important;
+  }
+
+  .print-accounts-grid .print-table td:nth-child(2) {
+    width: 25% !important;
+    text-align: right !important;
+    padding-right: 8px !important;
+    white-space: nowrap !important;
+  }
+
+  .print-accounts-grid .print-table td:nth-child(3) {
+    width: 15% !important;
+  }
+  
+  @page {
+    size: A4 portrait;
+    margin: 1cm 0.7cm; /* Optimized margins to prevent right-side cutting */
+  }
+}
