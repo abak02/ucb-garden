@@ -53,22 +53,35 @@ const translations = {
     theme: "থিম",
     light: "লাইট",
     dark: "ডার্ক",
-    monthBn: ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"],
+    monthBn: [
+      "জানুয়ারি",
+      "ফেব্রুয়ারি",
+      "মার্চ",
+      "এপ্রিল",
+      "মে",
+      "জুন",
+      "জুলাই",
+      "আগস্ট",
+      "সেপ্টেম্বর",
+      "অক্টোবর",
+      "নভেম্বর",
+      "ডিসেম্বর",
+    ],
     costItems: {
       guard_salary: "প্রহরীর বেতন",
       sweeper_salary: "ঝাড়ুদারের বেতন",
       garage_rent: "গ্যারেজ ভাড়া",
       water_bill: "পানির বিল",
       electricity_bill: "বিদ্যুৎ বিল",
-      misc: "বিবিধ"
+      misc: "বিবিধ",
     },
     incomeItems: {
       room_rent: "রুম ভাড়া",
       flat_income: "ফ্ল্যাট থেকে মোট আয়",
-      motorcycle_rent: "মোটরসাইকেল ভাড়া"
+      motorcycle_rent: "মোটরসাইকেল ভাড়া",
     },
     serviceChargeSheetTitle: "সার্ভিস চার্জ আদায়ের শিট",
-    managerSignature: "সভাপতি/সম্পাদক/কোষাধ্যক্ষ"
+    managerSignature: "সভাপতি/সম্পাদক/কোষাধ্যক্ষ",
   },
   en: {
     brandName: "UBC Garden",
@@ -116,28 +129,42 @@ const translations = {
     importData: "Import Data",
     resetData: "Reset Data",
     dangerZone: "Danger Zone",
-    confirmReset: "Are you sure you want to reset all data? This cannot be undone.",
+    confirmReset:
+      "Are you sure you want to reset all data? This cannot be undone.",
     language: "Language",
     theme: "Theme",
     light: "Light",
     dark: "Dark",
-    monthBn: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    monthBn: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
     costItems: {
       guard_salary: "Guard's Salary",
       sweeper_salary: "Sweeper's Salary",
       garage_rent: "Garage Rent",
       water_bill: "Water Bill",
       electricity_bill: "Electricity Bill",
-      misc: "Miscellaneous"
+      misc: "Miscellaneous",
     },
     incomeItems: {
       room_rent: "Room Rent",
       flat_income: "Total Income from Flats",
-      motorcycle_rent: "Motorcycle Rent"
+      motorcycle_rent: "Motorcycle Rent",
     },
     serviceChargeSheetTitle: "Service Charge Collection Sheet",
-    managerSignature: "President/Secretary/Treasurer"
-  }
+    managerSignature: "President/Secretary/Treasurer",
+  },
 };
 
 // State Variables
@@ -146,7 +173,7 @@ let state = {
   currentYear: new Date().getFullYear(),
   language: "bn",
   theme: "light",
-  monthlyData: {} // Key: "YYYY-MM" -> { flats: [], expenses: [], incomes: [] }
+  monthlyData: {}, // Key: "YYYY-MM" -> { flats: [], expenses: [], incomes: [] }
 };
 
 // Chart Instance
@@ -213,8 +240,14 @@ function loadStateFromLocalStorage() {
       // Migrate or restore basic variables
       state.language = parsed.language || "bn";
       state.theme = parsed.theme || "light";
-      state.currentMonth = parsed.currentMonth !== undefined ? parsed.currentMonth : new Date().getMonth();
-      state.currentYear = parsed.currentYear !== undefined ? parsed.currentYear : new Date().getFullYear();
+      state.currentMonth =
+        parsed.currentMonth !== undefined
+          ? parsed.currentMonth
+          : new Date().getMonth();
+      state.currentYear =
+        parsed.currentYear !== undefined
+          ? parsed.currentYear
+          : new Date().getFullYear();
       state.monthlyData = parsed.monthlyData || {};
     } catch (e) {
       console.error("Failed to load local storage state", e);
@@ -233,21 +266,21 @@ function initMonthData(year, month) {
       const sortedKeys = keys.sort();
       const templateKey = sortedKeys[sortedKeys.length - 1];
       const templateData = state.monthlyData[templateKey];
-      
+
       state.monthlyData[key] = {
-        flats: templateData.flats.map(f => ({
+        flats: templateData.flats.map((f) => ({
           ...f,
-          paid: false // default new month unpaid
+          paid: false, // default new month unpaid
         })),
-        expenses: templateData.expenses.map(e => ({ ...e })),
-        incomes: templateData.incomes.map(i => ({ ...i }))
+        expenses: templateData.expenses.map((e) => ({ ...e })),
+        incomes: templateData.incomes.map((i) => ({ ...i })),
       };
     } else {
       // Otherwise, use seed values from window.UbcGardenSeeds
       state.monthlyData[key] = {
         flats: JSON.parse(JSON.stringify(window.UbcGardenSeeds.flats)),
         expenses: JSON.parse(JSON.stringify(window.UbcGardenSeeds.expenses)),
-        incomes: JSON.parse(JSON.stringify(window.UbcGardenSeeds.incomes))
+        incomes: JSON.parse(JSON.stringify(window.UbcGardenSeeds.incomes)),
       };
     }
   }
@@ -263,8 +296,8 @@ function recalculateTotals(monthKey) {
   // 1. Calculate Flat Totals
   let totalFlatCollections = 0;
   let totalFlatReceivable = 0;
-  
-  data.flats.forEach(flat => {
+
+  data.flats.forEach((flat) => {
     // Make sure values are numbers
     flat.electricity = Number(flat.electricity) || 0;
     flat.guard = Number(flat.guard) || 0;
@@ -273,10 +306,16 @@ function recalculateTotals(monthKey) {
     flat.garage = Number(flat.garage) || 0;
     flat.development = Number(flat.development) || 0;
     flat.festival = Number(flat.festival) || 0;
-    
+
     // Sum rows
-    flat.total = flat.electricity + flat.guard + flat.water + flat.garage + flat.development + flat.festival;
-    
+    flat.total =
+      flat.electricity +
+      flat.guard +
+      flat.water +
+      flat.garage +
+      flat.development +
+      flat.festival;
+
     totalFlatReceivable += flat.total;
     if (flat.paid) {
       totalFlatCollections += flat.total;
@@ -284,20 +323,20 @@ function recalculateTotals(monthKey) {
   });
 
   // 2. Update the dynamic flat income amount in the incomes list
-  const flatIncomeObj = data.incomes.find(i => i.key === "flat_income");
+  const flatIncomeObj = data.incomes.find((i) => i.key === "flat_income");
   if (flatIncomeObj) {
     flatIncomeObj.amount = totalFlatCollections;
   }
 
   // 3. Calculate Ledger Totals
   let totalIncome = 0;
-  data.incomes.forEach(income => {
+  data.incomes.forEach((income) => {
     income.amount = Number(income.amount) || 0;
     totalIncome += income.amount;
   });
 
   let totalExpense = 0;
-  data.expenses.forEach(exp => {
+  data.expenses.forEach((exp) => {
     exp.amount = Number(exp.amount) || 0;
     totalExpense += exp.amount;
   });
@@ -309,8 +348,8 @@ function recalculateTotals(monthKey) {
     totalIncome,
     totalExpense,
     surplus: totalIncome - totalExpense,
-    paidCount: data.flats.filter(f => f.paid).length,
-    totalFlats: data.flats.length
+    paidCount: data.flats.filter((f) => f.paid).length,
+    totalFlats: data.flats.length,
   };
 }
 
@@ -324,9 +363,9 @@ function getActiveData() {
 // Perform translation of HTML text strings
 function translateUI() {
   const dictionary = translations[state.language];
-  
+
   // Set data-translate elements
-  document.querySelectorAll("[data-translate]").forEach(el => {
+  document.querySelectorAll("[data-translate]").forEach((el) => {
     const key = el.getAttribute("data-translate");
     if (dictionary[key]) {
       el.textContent = dictionary[key];
@@ -336,7 +375,7 @@ function translateUI() {
   // Specific dynamic text replacements
   document.querySelector(".brand-name").textContent = dictionary.brandName;
   document.querySelector(".brand-subtitle").textContent = dictionary.brandLoc;
-  
+
   // Populates Month & Year selectors
   populateSelectors();
 }
@@ -344,13 +383,13 @@ function translateUI() {
 function populateSelectors() {
   const monthSelect = document.getElementById("month-select");
   const yearSelect = document.getElementById("year-select");
-  
+
   if (!monthSelect || !yearSelect) return;
-  
+
   // Clear lists
   monthSelect.innerHTML = "";
   yearSelect.innerHTML = "";
-  
+
   const mList = translations[state.language].monthBn;
   mList.forEach((mName, i) => {
     const opt = document.createElement("option");
@@ -375,20 +414,22 @@ function populateSelectors() {
 // Views Navigation Controller
 function switchView(viewId) {
   // Hide all
-  document.querySelectorAll(".content-view").forEach(view => {
+  document.querySelectorAll(".content-view").forEach((view) => {
     view.classList.remove("active");
   });
-  document.querySelectorAll(".nav-item").forEach(item => {
+  document.querySelectorAll(".nav-item").forEach((item) => {
     item.classList.remove("active");
   });
-  
+
   // Show target
   const targetView = document.getElementById(`${viewId}-view`);
   if (targetView) targetView.classList.add("active");
-  
-  const targetBtn = document.querySelector(`.nav-item button[onclick="switchView('${viewId}')"]`);
+
+  const targetBtn = document.querySelector(
+    `.nav-item button[onclick="switchView('${viewId}')"]`,
+  );
   if (targetBtn) targetBtn.parentElement.classList.add("active");
-  
+
   // Render targets
   if (viewId === "dashboard") {
     renderDashboard();
@@ -408,26 +449,35 @@ function renderDashboard() {
   const dictionary = translations[state.language];
 
   // Set card contents
-  document.getElementById("db-total-collection").textContent = "৳ " + formatNum(summary.totalIncome);
-  document.getElementById("db-total-expenses").textContent = "৳ " + formatNum(summary.totalExpense);
-  
+  document.getElementById("db-total-collection").textContent =
+    "৳ " + formatNum(summary.totalIncome);
+  document.getElementById("db-total-expenses").textContent =
+    "৳ " + formatNum(summary.totalExpense);
+
   const surplusEl = document.getElementById("db-cash-surplus");
   surplusEl.textContent = "৳ " + formatNum(Math.abs(summary.surplus));
   if (summary.surplus >= 0) {
     surplusEl.className = "kpi-value text-success";
-    document.getElementById("db-surplus-trend").innerHTML = `<i class="fa-solid fa-arrow-trend-up"></i> ${state.language === "bn" ? "উদ্বৃত্ত" : "Surplus"}`;
+    document.getElementById("db-surplus-trend").innerHTML =
+      `<i class="fa-solid fa-arrow-trend-up"></i> ${state.language === "bn" ? "উদ্বৃত্ত" : "Surplus"}`;
     document.getElementById("db-surplus-trend").className = "kpi-trend up";
   } else {
     surplusEl.className = "kpi-value text-danger";
-    document.getElementById("db-surplus-trend").innerHTML = `<i class="fa-solid fa-arrow-trend-down"></i> ${state.language === "bn" ? "ঘাটতি" : "Deficit"}`;
+    document.getElementById("db-surplus-trend").innerHTML =
+      `<i class="fa-solid fa-arrow-trend-down"></i> ${state.language === "bn" ? "ঘাটতি" : "Deficit"}`;
     document.getElementById("db-surplus-trend").className = "kpi-trend down";
   }
 
-  const rate = summary.totalFlats > 0 ? Math.round((summary.paidCount / summary.totalFlats) * 100) : 0;
-  document.getElementById("db-collection-rate").textContent = formatNum(rate) + "%";
-  document.getElementById("db-rate-sub").textContent = state.language === "bn"
-    ? `${toBnNum(summary.paidCount)} / ${toBnNum(summary.totalFlats)} ফ্ল্যাট পরিশোধিত`
-    : `${summary.paidCount} / ${summary.totalFlats} Flats Paid`;
+  const rate =
+    summary.totalFlats > 0
+      ? Math.round((summary.paidCount / summary.totalFlats) * 100)
+      : 0;
+  document.getElementById("db-collection-rate").textContent =
+    formatNum(rate) + "%";
+  document.getElementById("db-rate-sub").textContent =
+    state.language === "bn"
+      ? `${toBnNum(summary.paidCount)} / ${toBnNum(summary.totalFlats)} ফ্ল্যাট পরিশোধিত`
+      : `${summary.paidCount} / ${summary.totalFlats} Flats Paid`;
 
   // Draw or Update Charts
   renderTrendChart();
@@ -451,13 +501,17 @@ function renderTrendChart() {
     const m = d.getMonth();
     const y = d.getFullYear();
     const key = getMonthKey(y, m);
-    
+
     // Auto-init months if they don't exist
     initMonthData(y, m);
     const mData = state.monthlyData[key];
-    
+
     monthsData.push(mData);
-    labels.push(translations[state.language].monthBn[m] + " " + formatNum(String(y).slice(-2)));
+    labels.push(
+      translations[state.language].monthBn[m] +
+        " " +
+        formatNum(String(y).slice(-2)),
+    );
     incomeData.push(mData.summary.totalIncome);
     expenseData.push(mData.summary.totalExpense);
   }
@@ -471,25 +525,39 @@ function renderTrendChart() {
   const textColor = isDark ? "#cbd5e1" : "#475569";
 
   trendChart = new Chart(ctx, {
-    type: 'bar',
+    type: "bar",
     data: {
       labels: labels,
       datasets: [
         {
           label: state.language === "bn" ? "মোট আয়" : "Total Income",
           data: incomeData,
-          backgroundColor: '#0d9488',
+          backgroundColor: (context) => {
+            const ctx = context.chart.ctx;
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, "#14b8a6");
+            gradient.addColorStop(0.5, "#0d9488");
+            gradient.addColorStop(1, "#0f766e");
+            return gradient;
+          },
           borderRadius: 6,
-          borderWidth: 0
+          borderWidth: 0,
         },
         {
           label: state.language === "bn" ? "মোট খরচ" : "Total Expense",
           data: expenseData,
-          backgroundColor: '#ef4444',
+          backgroundColor: (context) => {
+            const ctx = context.chart.ctx;
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, "#f87171");
+            gradient.addColorStop(0.5, "#ef4444");
+            gradient.addColorStop(1, "#dc2626");
+            return gradient;
+          },
           borderRadius: 6,
-          borderWidth: 0
-        }
-      ]
+          borderWidth: 0,
+        },
+      ],
     },
     options: {
       responsive: true,
@@ -499,47 +567,47 @@ function renderTrendChart() {
           labels: {
             color: textColor,
             font: {
-              family: state.language === "bn" ? 'Hind Siliguri' : 'Outfit',
-              size: 12
-            }
-          }
+              family: state.language === "bn" ? "Hind Siliguri" : "Outfit",
+              size: 12,
+            },
+          },
         },
         tooltip: {
           titleFont: {
-            family: state.language === "bn" ? 'Hind Siliguri' : 'Outfit'
+            family: state.language === "bn" ? "Hind Siliguri" : "Outfit",
           },
           bodyFont: {
-            family: state.language === "bn" ? 'Hind Siliguri' : 'Outfit'
-          }
-        }
+            family: state.language === "bn" ? "Hind Siliguri" : "Outfit",
+          },
+        },
       },
       scales: {
         x: {
           grid: {
-            display: false
+            display: false,
           },
           ticks: {
             color: textColor,
             font: {
-              family: state.language === "bn" ? 'Hind Siliguri' : 'Outfit',
-              size: 11
-            }
-          }
+              family: state.language === "bn" ? "Hind Siliguri" : "Outfit",
+              size: 11,
+            },
+          },
         },
         y: {
           grid: {
-            color: gridColor
+            color: gridColor,
           },
           ticks: {
             color: textColor,
             font: {
-              family: state.language === "bn" ? 'Hind Siliguri' : 'Outfit',
-              size: 11
-            }
-          }
-        }
-      }
-    }
+              family: state.language === "bn" ? "Hind Siliguri" : "Outfit",
+              size: 11,
+            },
+          },
+        },
+      },
+    },
   });
 }
 
@@ -550,14 +618,17 @@ function renderDistributionChart() {
   if (!container) return;
 
   container.innerHTML = "";
-  
+
   // Display expenses distribution
   const total = data.summary.totalExpense || 1;
-  
-  data.expenses.forEach(exp => {
+
+  data.expenses.forEach((exp) => {
     const pct = Math.round((exp.amount / total) * 100);
-    const label = state.language === "bn" ? (translations.bn.costItems[exp.key] || exp.nameBn) : (translations.en.costItems[exp.key] || exp.nameEn);
-    
+    const label =
+      state.language === "bn"
+        ? translations.bn.costItems[exp.key] || exp.nameBn
+        : translations.en.costItems[exp.key] || exp.nameEn;
+
     const div = document.createElement("div");
     div.style.marginBottom = "1rem";
     div.innerHTML = `
@@ -619,11 +690,11 @@ function renderBillingSheet() {
     sumTotal += flat.total;
 
     const tr = document.createElement("tr");
-    
+
     // Status badge class
     const statusText = flat.paid ? dictionary.paid : dictionary.unpaid;
     const statusClass = flat.paid ? "paid" : "unpaid";
-    
+
     tr.innerHTML = `
       <td class="lang-bn">${formatNum(index + 1)}</td>
       <td>
@@ -705,7 +776,7 @@ function restoreZero(input) {
 // Handle flat owner name & flat text updates
 function updateFlatField(flatId, fieldName, newVal) {
   const data = getActiveData();
-  const flat = data.flats.find(f => f.id === flatId);
+  const flat = data.flats.find((f) => f.id === flatId);
   if (!flat) return;
 
   if (state.language === "bn") {
@@ -715,14 +786,14 @@ function updateFlatField(flatId, fieldName, newVal) {
     if (fieldName === "name") flat.nameEn = newVal;
     if (fieldName === "flatNo") flat.flatEn = newVal;
   }
-  
+
   saveStateToLocalStorage();
 }
 
 // Handle flat fee amounts updates (converts BN numerals correctly)
 function updateFlatNumField(flatId, fieldName, newVal) {
   const data = getActiveData();
-  const flat = data.flats.find(f => f.id === flatId);
+  const flat = data.flats.find((f) => f.id === flatId);
   if (!flat) return;
 
   // Convert input value (which might be in Bengali numerals) to standard number
@@ -738,11 +809,11 @@ function updateFlatNumField(flatId, fieldName, newVal) {
 // Toggle Flat Paid status
 function togglePaidStatus(flatId) {
   const data = getActiveData();
-  const flat = data.flats.find(f => f.id === flatId);
+  const flat = data.flats.find((f) => f.id === flatId);
   if (!flat) return;
 
   flat.paid = !flat.paid;
-  
+
   recalculateTotals(getMonthKey(state.currentYear, state.currentMonth));
   saveStateToLocalStorage();
   renderBillingSheet();
@@ -754,15 +825,20 @@ function renderLedgers() {
   const dictionary = translations[state.language];
 
   // Set headings
-  document.getElementById("heading-expenses").textContent = dictionary.expenseStatement;
-  document.getElementById("heading-incomes").textContent = dictionary.incomeStatement;
+  document.getElementById("heading-expenses").textContent =
+    dictionary.expenseStatement;
+  document.getElementById("heading-incomes").textContent =
+    dictionary.incomeStatement;
 
   // 1. Render Expenses
   const expContainer = document.getElementById("expenses-list");
   expContainer.innerHTML = "";
-  
-  data.expenses.forEach(exp => {
-    const label = state.language === "bn" ? (dictionary.costItems[exp.key] || exp.nameBn) : (dictionary.costItems[exp.key] || exp.nameEn);
+
+  data.expenses.forEach((exp) => {
+    const label =
+      state.language === "bn"
+        ? dictionary.costItems[exp.key] || exp.nameBn
+        : dictionary.costItems[exp.key] || exp.nameEn;
     const div = document.createElement("div");
     div.className = "ledger-item";
     div.innerHTML = `
@@ -776,23 +852,27 @@ function renderLedgers() {
                onfocus="clearZero(this)" 
                onblur="restoreZero(this)"
                onchange="updateLedgerItem('expense', '${exp.key || exp.id}', this.value)">
-        ${exp.key ? '' : `<button class="btn btn-sm btn-icon" style="color:var(--danger);" onclick="deleteLedgerItem('expense', ${exp.id})"><i class="fa-solid fa-trash"></i></button>`}
+        ${exp.key ? "" : `<button class="btn btn-sm btn-icon" style="color:var(--danger);" onclick="deleteLedgerItem('expense', ${exp.id})"><i class="fa-solid fa-trash"></i></button>`}
       </div>
     `;
     expContainer.appendChild(div);
   });
 
   // Total Expenses value
-  document.getElementById("total-expense-val").textContent = "৳ " + formatNum(data.summary.totalExpense);
+  document.getElementById("total-expense-val").textContent =
+    "৳ " + formatNum(data.summary.totalExpense);
 
   // 2. Render Incomes
   const incContainer = document.getElementById("incomes-list");
   incContainer.innerHTML = "";
 
-  data.incomes.forEach(inc => {
-    const label = state.language === "bn" ? (dictionary.incomeItems[inc.key] || inc.nameBn) : (dictionary.incomeItems[inc.key] || inc.nameEn);
+  data.incomes.forEach((inc) => {
+    const label =
+      state.language === "bn"
+        ? dictionary.incomeItems[inc.key] || inc.nameBn
+        : dictionary.incomeItems[inc.key] || inc.nameEn;
     const isCalculated = inc.isCalculated;
-    
+
     const div = document.createElement("div");
     div.className = "ledger-item";
     div.innerHTML = `
@@ -804,19 +884,20 @@ function renderLedgers() {
         <span style="font-weight:600; color:var(--text-muted);">৳</span>
         <input type="text" class="table-input num-input lang-bn ledger-item-val" style="width:110px; border-bottom:1px dashed var(--border);" 
                value="${formatNum(inc.amount)}" 
-               ${isCalculated ? 'readonly disabled style="opacity:0.8; cursor:not-allowed;"' : ''}
+               ${isCalculated ? 'readonly disabled style="opacity:0.8; cursor:not-allowed;"' : ""}
                onfocus="clearZero(this)" 
                onblur="restoreZero(this)"
                onchange="updateLedgerItem('income', '${inc.key || inc.id}', this.value)">
-        ${inc.key ? '' : `<button class="btn btn-sm btn-icon" style="color:var(--danger);" onclick="deleteLedgerItem('income', ${inc.id})"><i class="fa-solid fa-trash"></i></button>`}
+        ${inc.key ? "" : `<button class="btn btn-sm btn-icon" style="color:var(--danger);" onclick="deleteLedgerItem('income', ${inc.id})"><i class="fa-solid fa-trash"></i></button>`}
       </div>
     `;
     incContainer.appendChild(div);
   });
 
   // Total Income & Surplus values
-  document.getElementById("total-income-val").textContent = "৳ " + formatNum(data.summary.totalIncome);
-  
+  document.getElementById("total-income-val").textContent =
+    "৳ " + formatNum(data.summary.totalIncome);
+
   const surpVal = document.getElementById("ledger-surplus-val");
   surpVal.textContent = "৳ " + formatNum(data.summary.surplus);
   if (data.summary.surplus >= 0) {
@@ -826,8 +907,9 @@ function renderLedgers() {
   }
 
   // Update dynamic values in modal inputs if open
-  document.getElementById("new-item-name").placeholder = state.language === "bn" ? "যেমনঃ মেরামত খরচ" : "e.g. Repair fee";
-  
+  document.getElementById("new-item-name").placeholder =
+    state.language === "bn" ? "যেমনঃ মেরামত খরচ" : "e.g. Repair fee";
+
   updatePrintSheet();
 }
 
@@ -835,13 +917,13 @@ function renderLedgers() {
 function updateLedgerItem(type, key, newVal) {
   const data = getActiveData();
   const list = type === "expense" ? data.expenses : data.incomes;
-  
+
   const val = toEnNum(newVal);
 
   // Find by key (system items) or ID (custom items)
-  let item = list.find(x => x.key === key);
+  let item = list.find((x) => x.key === key);
   if (!item) {
-    item = list.find(x => String(x.id) === key);
+    item = list.find((x) => String(x.id) === key);
   }
 
   if (item) {
@@ -856,12 +938,17 @@ function updateLedgerItem(type, key, newVal) {
 function openAddLedgerModal(type) {
   const modal = document.getElementById("add-item-modal");
   const modalTitle = document.getElementById("modal-title");
-  
+
   modal.setAttribute("data-type", type);
-  modalTitle.textContent = type === "expense" 
-    ? (state.language === "bn" ? "নতুন ব্যয় খাত যোগ করুন" : "Add Expense Item")
-    : (state.language === "bn" ? "নতুন আয় খাত যোগ করুন" : "Add Income Item");
-    
+  modalTitle.textContent =
+    type === "expense"
+      ? state.language === "bn"
+        ? "নতুন ব্যয় খাত যোগ করুন"
+        : "Add Expense Item"
+      : state.language === "bn"
+        ? "নতুন আয় খাত যোগ করুন"
+        : "Add Income Item";
+
   modal.classList.add("active");
 }
 
@@ -875,24 +962,24 @@ function closeAddLedgerModal() {
 function saveCustomLedgerItem() {
   const modal = document.getElementById("add-item-modal");
   const type = modal.getAttribute("data-type");
-  
+
   const nameVal = document.getElementById("new-item-name").value.trim();
   const amountVal = toEnNum(document.getElementById("new-item-amount").value);
-  
+
   if (!nameVal) return;
 
   const data = getActiveData();
   const list = type === "expense" ? data.expenses : data.incomes;
-  
+
   const newItem = {
     id: Date.now(),
     nameBn: nameVal,
     nameEn: nameVal,
-    amount: amountVal
+    amount: amountVal,
   };
-  
+
   list.push(newItem);
-  
+
   recalculateTotals(getMonthKey(state.currentYear, state.currentMonth));
   saveStateToLocalStorage();
   closeAddLedgerModal();
@@ -902,8 +989,8 @@ function saveCustomLedgerItem() {
 function deleteLedgerItem(type, id) {
   const data = getActiveData();
   const list = type === "expense" ? data.expenses : data.incomes;
-  
-  const idx = list.findIndex(x => x.id === id);
+
+  const idx = list.findIndex((x) => x.id === id);
   if (idx !== -1) {
     list.splice(idx, 1);
     recalculateTotals(getMonthKey(state.currentYear, state.currentMonth));
@@ -925,7 +1012,7 @@ function renderSettings() {
 function toggleTheme(isDark) {
   state.theme = isDark ? "dark" : "light";
   document.documentElement.setAttribute("data-theme", state.theme);
-  
+
   // Update icons
   const icon = document.getElementById("theme-toggle-btn").querySelector("i");
   if (state.theme === "dark") {
@@ -941,17 +1028,17 @@ function toggleTheme(isDark) {
 function toggleLanguage(isEn) {
   state.language = isEn ? "en" : "bn";
   document.documentElement.setAttribute("lang", state.language);
-  
+
   // Re-translate and re-render
   translateUI();
-  
+
   // Refresh current view
   const activeViewEl = document.querySelector(".content-view.active");
   if (activeViewEl) {
     const viewId = activeViewEl.id.replace("-view", "");
     switchView(viewId);
   }
-  
+
   saveStateToLocalStorage();
 }
 
@@ -960,7 +1047,7 @@ function onMonthChange(monthIdx) {
   state.currentMonth = parseInt(monthIdx);
   initMonthData(state.currentYear, state.currentMonth);
   saveStateToLocalStorage();
-  
+
   // Refresh view
   const activeViewEl = document.querySelector(".content-view.active");
   if (activeViewEl) {
@@ -973,7 +1060,7 @@ function onYearChange(year) {
   state.currentYear = parseInt(year);
   initMonthData(state.currentYear, state.currentMonth);
   saveStateToLocalStorage();
-  
+
   // Refresh view
   const activeViewEl = document.querySelector(".content-view.active");
   if (activeViewEl) {
@@ -984,12 +1071,16 @@ function onYearChange(year) {
 
 // JSON Backup Utilities
 function exportDataAsJSON() {
-  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
-  const downloadAnchor = document.createElement('a');
+  const dataStr =
+    "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
+  const downloadAnchor = document.createElement("a");
   downloadAnchor.setAttribute("href", dataStr);
-  
+
   const m = String(state.currentMonth + 1).padStart(2, "0");
-  downloadAnchor.setAttribute("download", `ubc_garden_backup_${state.currentYear}_${m}.json`);
+  downloadAnchor.setAttribute(
+    "download",
+    `ubc_garden_backup_${state.currentYear}_${m}.json`,
+  );
   document.body.appendChild(downloadAnchor);
   downloadAnchor.click();
   downloadAnchor.remove();
@@ -1000,22 +1091,33 @@ function importDataFromJSON(event) {
   if (!file) return;
 
   const reader = new FileReader();
-  reader.onload = function(e) {
+  reader.onload = function (e) {
     try {
       const parsed = JSON.parse(e.target.result);
       if (parsed.monthlyData) {
         state = parsed;
         saveStateToLocalStorage();
-        
+
         // Re-apply language and theme
-        document.documentElement.setAttribute("data-theme", state.theme || "light");
+        document.documentElement.setAttribute(
+          "data-theme",
+          state.theme || "light",
+        );
         document.documentElement.setAttribute("lang", state.language || "bn");
         toggleTheme(state.theme === "dark");
         toggleLanguage(state.language === "en");
-        
-        alert(state.language === "bn" ? "ডেটা সফলভাবে ইম্পোর্ট করা হয়েছে!" : "Data imported successfully!");
+
+        alert(
+          state.language === "bn"
+            ? "ডেটা সফলভাবে ইম্পোর্ট করা হয়েছে!"
+            : "Data imported successfully!",
+        );
       } else {
-        alert(state.language === "bn" ? "ভুল ফাইল ফরম্যাট!" : "Invalid file format!");
+        alert(
+          state.language === "bn"
+            ? "ভুল ফাইল ফরম্যাট!"
+            : "Invalid file format!",
+        );
       }
     } catch (err) {
       alert("Error: " + err.message);
@@ -1031,7 +1133,7 @@ function resetAllData() {
     state.monthlyData = {};
     initMonthData(state.currentYear, state.currentMonth);
     saveStateToLocalStorage();
-    
+
     // Refresh page
     window.location.reload();
   }
@@ -1047,7 +1149,8 @@ function updatePrintSheet() {
   const dictionary = translations[state.language];
 
   // Headings
-  const currentMonthName = translations[state.language].monthBn[state.currentMonth];
+  const currentMonthName =
+    translations[state.language].monthBn[state.currentMonth];
   const formattedYear = formatNum(state.currentYear);
   const monthYearStr = `${currentMonthName}, ${formattedYear}`;
 
@@ -1109,8 +1212,11 @@ function updatePrintSheet() {
 
   // 2. Build Expenses Statement Rows
   let expRowsHtml = "";
-  data.expenses.forEach(exp => {
-    const label = state.language === "bn" ? (translations.bn.costItems[exp.key] || exp.nameBn) : (translations.en.costItems[exp.key] || exp.nameEn);
+  data.expenses.forEach((exp) => {
+    const label =
+      state.language === "bn"
+        ? translations.bn.costItems[exp.key] || exp.nameBn
+        : translations.en.costItems[exp.key] || exp.nameEn;
     expRowsHtml += `
       <tr>
         <td class="text-left">${label}</td>
@@ -1142,8 +1248,11 @@ function updatePrintSheet() {
 
   // 3. Build Incomes Statement Rows
   let incRowsHtml = "";
-  data.incomes.forEach(inc => {
-    const label = state.language === "bn" ? (translations.bn.incomeItems[inc.key] || inc.nameBn) : (translations.en.incomeItems[inc.key] || inc.nameEn);
+  data.incomes.forEach((inc) => {
+    const label =
+      state.language === "bn"
+        ? translations.bn.incomeItems[inc.key] || inc.nameBn
+        : translations.en.incomeItems[inc.key] || inc.nameEn;
     incRowsHtml += `
       <tr>
         <td class="text-left">${label}</td>
@@ -1252,17 +1361,17 @@ function triggerPrint() {
 window.addEventListener("DOMContentLoaded", () => {
   // Load configuration and cached records
   loadStateFromLocalStorage();
-  
+
   // Set default theme from state
   document.documentElement.setAttribute("data-theme", state.theme);
   document.documentElement.setAttribute("lang", state.language);
-  
+
   // Load theme styles
   toggleTheme(state.theme === "dark");
 
   // Ensure target month initialized
   initMonthData(state.currentYear, state.currentMonth);
-  
+
   // Sync and render
   translateUI();
   switchView("dashboard");
