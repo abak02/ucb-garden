@@ -269,6 +269,7 @@ function recalculateTotals(monthKey) {
     flat.electricity = Number(flat.electricity) || 0;
     flat.guard = Number(flat.guard) || 0;
     flat.water = Number(flat.water) || 0;
+    flat.sweeper = Number(flat.sweeper) || 0;
     flat.garage = Number(flat.garage) || 0;
     flat.development = Number(flat.development) || 0;
     flat.festival = Number(flat.festival) || 0;
@@ -589,6 +590,7 @@ function renderBillingSheet() {
   document.getElementById("col-flat").textContent = dictionary.flatNo;
   document.getElementById("col-elec").textContent = dictionary.electricity;
   document.getElementById("col-guard").textContent = dictionary.guard;
+  document.getElementById("col-sweeper").textContent = dictionary.sweeper;
   document.getElementById("col-water").textContent = dictionary.water;
   document.getElementById("col-garage").textContent = dictionary.garage;
   document.getElementById("col-dev").textContent = dictionary.development;
@@ -599,6 +601,7 @@ function renderBillingSheet() {
   // Sum lists for columns
   let sumElec = 0;
   let sumGuard = 0;
+  let sumSweeper = 0;
   let sumWater = 0;
   let sumGarage = 0;
   let sumDev = 0;
@@ -608,6 +611,7 @@ function renderBillingSheet() {
   data.flats.forEach((flat, index) => {
     sumElec += flat.electricity;
     sumGuard += flat.guard;
+    sumSweeper += flat.sweeper;
     sumWater += flat.water;
     sumGarage += flat.garage;
     sumDev += flat.development;
@@ -633,6 +637,9 @@ function renderBillingSheet() {
       </td>
       <td>
         <input type="text" class="table-input num-input lang-bn" value="${formatNum(flat.guard)}" onfocus="clearZero(this)" onblur="restoreZero(this)" onchange="updateFlatNumField(${flat.id}, 'guard', this.value)">
+      </td>
+      <td>
+        <input type="text" class="table-input num-input lang-bn" value="${formatNum(flat.sweeper)}" onfocus="clearZero(this)" onblur="restoreZero(this)" onchange="updateFlatNumField(${flat.id}, 'sweeper', this.value)">
       </td>
       <td>
         <input type="text" class="table-input num-input lang-bn" value="${formatNum(flat.water)}" onfocus="clearZero(this)" onblur="restoreZero(this)" onchange="updateFlatNumField(${flat.id}, 'water', this.value)">
@@ -666,7 +673,7 @@ function renderBillingSheet() {
     <td colspan="3" style="text-align: right; font-weight: 800; padding-right:1rem;">${state.language === "bn" ? "মোটঃ" : "Total:"}</td>
     <td class="lang-bn" style="text-align: right; font-weight: 800; padding-right: 1.5rem;">৳${formatNum(sumElec)}</td>
     <td class="lang-bn" style="text-align: right; font-weight: 800; padding-right: 1.5rem;">৳${formatNum(sumGuard)}</td>
-    <td>-</td>
+    <td class="lang-bn" style="text-align: right; font-weight: 800; padding-right: 1.5rem;">৳${formatNum(sumSweeper)}</td>
     <td class="lang-bn" style="text-align: right; font-weight: 800; padding-right: 1.5rem;">৳${formatNum(sumWater)}</td>
     <td class="lang-bn" style="text-align: right; font-weight: 800; padding-right: 1.5rem;">৳${formatNum(sumGarage)}</td>
     <td class="lang-bn" style="text-align: right; font-weight: 800; padding-right: 1.5rem;">৳${formatNum(sumDev)}</td>
