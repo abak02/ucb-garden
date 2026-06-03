@@ -1085,7 +1085,7 @@ input:checked + .slider:before {
     border-bottom: none;
     padding: 0.5rem;
     flex-direction: column;
-    position: fixed;
+    position: sticky;
     bottom: 0;
     left: 0;
     right: 0;
