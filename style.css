@@ -1076,22 +1076,22 @@ input:checked + .slider:before {
     display: none;
   }
   
-  /* Fixed Sidebar - Make it horizontal at bottom */
+  /* Fixed Sidebar - Make it horizontal at top */
   #sidebar {
     width: 100%;
     height: auto;
     border-right: none;
-    border-top: 1px solid var(--border);
-    border-bottom: none;
+    border-bottom: 1px solid var(--border);
+    border-top: none;
     padding: 0.5rem;
     flex-direction: column;
-    position: fixed;
-    bottom: 0;
+    position: sticky;
+    top: 0;
     left: 0;
     right: 0;
     z-index: 100;
     background-color: var(--bg-secondary);
-    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
   
   .brand-section {
