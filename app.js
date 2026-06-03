@@ -456,16 +456,17 @@ function renderDashboard() {
 
   const surplusEl = document.getElementById("db-cash-surplus");
   surplusEl.textContent = "৳ " + formatNum(Math.abs(summary.surplus));
+  surplusEl.className = "font-bn";
   if (summary.surplus >= 0) {
     surplusEl.className = "kpi-value text-success";
     document.getElementById("db-surplus-trend").innerHTML =
       `<i class="fa-solid fa-arrow-trend-up"></i> ${state.language === "bn" ? "উদ্বৃত্ত" : "Surplus"}`;
-    document.getElementById("db-surplus-trend").className = "kpi-trend up";
+    document.getElementById("db-surplus-trend").className = "kpi-trend up font-bn";
   } else {
     surplusEl.className = "kpi-value text-danger";
     document.getElementById("db-surplus-trend").innerHTML =
       `<i class="fa-solid fa-arrow-trend-down"></i> ${state.language === "bn" ? "ঘাটতি" : "Deficit"}`;
-    document.getElementById("db-surplus-trend").className = "kpi-trend down";
+    document.getElementById("db-surplus-trend").className = "kpi-trend down font-bn";
   }
 
   const rate =
@@ -741,7 +742,7 @@ function renderBillingSheet() {
   const totalRow = document.createElement("tr");
   totalRow.className = "row-total";
   totalRow.innerHTML = `
-    <td colspan="3" style="text-align: right; font-weight: 800; padding-right:1rem;">${state.language === "bn" ? "মোটঃ" : "Total:"}</td>
+    <td colspan="3" class="font-bn" style="text-align: right; font-weight: 800; padding-right:1rem;">${state.language === "bn" ? "মোটঃ" : "Total:"}</td>
     <td class="lang-bn" style="text-align: right; font-weight: 800; padding-right: 1.5rem;">৳${formatNum(sumElec)}</td>
     <td class="lang-bn" style="text-align: right; font-weight: 800; padding-right: 1.5rem;">৳${formatNum(sumGuard)}</td>
     <td class="lang-bn" style="text-align: right; font-weight: 800; padding-right: 1.5rem;">৳${formatNum(sumSweeper)}</td>

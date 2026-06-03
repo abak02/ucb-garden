@@ -2,7 +2,7 @@
 <html lang="bn" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- SEO Meta Tags -->
   <title>UBC Garden - Flat Management System</title>
@@ -44,25 +44,25 @@
           <li class="nav-item active">
             <button onclick="switchView('dashboard')">
               <i class="fa-solid fa-chart-pie"></i>
-              <span data-translate="dashboard">ড্যাশবোর্ড</span>
+              <span data-translate="dashboard" class="font-bn">ড্যাশবোর্ড</span>
             </button>
           </li>
           <li class="nav-item">
             <button onclick="switchView('sheet')">
               <i class="fa-solid fa-file-invoice-dollar"></i>
-              <span data-translate="billingSheet">বিলিং শিট</span>
+              <span data-translate="billingSheet" class="font-bn">বিলিং শিট</span>
             </button>
           </li>
           <li class="nav-item">
             <button onclick="switchView('ledgers')">
               <i class="fa-solid fa-wallet"></i>
-              <span data-translate="ledgers">আয় ও ব্যয়</span>
+              <span data-translate="ledgers" class="font-bn">আয় ও ব্যয়</span>
             </button>
           </li>
           <li class="nav-item">
             <button onclick="switchView('settings')">
               <i class="fa-solid fa-sliders"></i>
-              <span data-translate="reportsSettings">রিপোর্ট ও সেটিংস</span>
+              <span data-translate="reportsSettings" class="font-bn">রিপোর্ট ও সেটিংস</span>
             </button>
           </li>
         </ul>
@@ -70,7 +70,7 @@
 
       <div class="sidebar-footer">
         <div class="sys-info">
-          <span style="font-weight: 600;" class="font-bn">UBC Garden Admin</span><br>
+          <span style="font-weight: 600;">UBC Garden Admin</span><br>
           <span style="opacity: 0.7;">v1.0.0</span>
         </div>
       </div>
@@ -119,7 +119,7 @@
         <div class="card-grid">
           <div class="kpi-card">
             <div class="kpi-info">
-              <span class="kpi-title" data-translate="totalCollection">মোট আদায়</span>
+              <span class="kpi-title font-bn" data-translate="totalCollection">মোট আদায়</span>
               <span class="kpi-value font-bn" id="db-total-collection">৳ ০</span>
             </div>
             <div class="kpi-icon">
@@ -128,7 +128,7 @@
           </div>
           <div class="kpi-card">
             <div class="kpi-info">
-              <span class="kpi-title" data-translate="totalExpenses">মোট খরচ</span>
+              <span class="kpi-title font-bn" data-translate="totalExpenses">মোট খরচ</span>
               <span class="kpi-value font-bn" id="db-total-expenses">৳ ০</span>
             </div>
             <div class="kpi-icon">
@@ -137,7 +137,7 @@
           </div>
           <div class="kpi-card">
             <div class="kpi-info">
-              <span class="kpi-title" data-translate="cashSurplus">উদ্বৃত্ত টাকা</span>
+              <span class="kpi-title font-bn" data-translate="cashSurplus">উদ্বৃত্ত টাকা</span>
               <span class="kpi-value font-bn" id="db-cash-surplus">৳ ০</span>
               <span class="kpi-trend up" id="db-surplus-trend">
                 <i class="fa-solid fa-arrow-trend-up"></i>
@@ -150,7 +150,7 @@
           </div>
           <div class="kpi-card">
             <div class="kpi-info">
-              <span class="kpi-title" data-translate="collectionRate">আদায় হার</span>
+              <span class="kpi-title font-bn" data-translate="collectionRate">আদায় হার</span>
               <span class="kpi-value font-bn" id="db-collection-rate">০%</span>
               <span style="font-size: 0.75rem; color: var(--text-muted);" id="db-rate-sub" class="font-bn">০ / ১৫ ফ্ল্যাট পরিশোধিত</span>
             </div>
@@ -167,7 +167,7 @@
             <div class="panel-header">
               <h2 class="panel-title" style="font-weight: 700;">
                 <i class="fa-solid fa-chart-column" style="color: var(--accent-primary); margin-right: 0.5rem;"></i>
-                <span data-translate="activeMonth">চলতি মাস</span>
+                <span data-translate="activeMonth" class="font-bn">চলতি মাস</span>
               </h2>
             </div>
             <div style="height: 280px; width: 100%; position: relative;">
@@ -180,7 +180,7 @@
             <div class="panel-header">
               <h2 class="panel-title" style="font-weight: 700;">
                 <i class="fa-solid fa-pie-chart" style="color: var(--danger); margin-right: 0.5rem;"></i>
-                <span data-translate="expenseStatement">ব্যয় বিবরণী</span>
+                <span data-translate="expenseStatement" class="font-bn">ব্যয় বিবরণী</span>
               </h2>
             </div>
             <div id="distribution-list" style="margin-top: 1rem;" class="font-bn"></div>
@@ -193,7 +193,7 @@
         <div class="glass-panel" style="margin-bottom: 2rem; padding: 1.25rem;">
           <h2 class="panel-title" style="margin-bottom: 0.5rem; font-weight:700;">
             <i class="fa-solid fa-table" style="color: var(--accent-primary); margin-right: 0.5rem;"></i>
-            <span data-translate="serviceChargeSheetTitle">সার্ভিস চার্জ আদায়ের শিট</span>
+            <span data-translate="serviceChargeSheetTitle" class="font-bn">সার্ভিস চার্জ আদায়ের শিট</span>
           </h2>
           <p style="font-size: 0.85rem; color: var(--text-muted);" class="font-bn">
             * ফ্ল্যাটের নামের উপর ক্লিক করে পরিবর্তন করুন। যেকোনো হিসাবের ঘর পরিবর্তন করা মাত্রই তা স্বয়ংক্রিয়ভাবে মোট হিসাবকে আপডেট করবে।
@@ -203,7 +203,7 @@
         <div class="table-responsive">
           <table class="sheet-table">
             <thead>
-              <tr>
+              <tr class="font-bn">
                 <th id="col-no" style="width: 4%;">নং</th>
                 <th id="col-owner" style="width: 20%;">ফ্ল্যাট মালিকের নাম</th>
                 <th id="col-flat" style="width: 10%;">ফ্ল্যাট নম্বর</th>
