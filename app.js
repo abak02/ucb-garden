@@ -173,6 +173,7 @@ let state = {
   currentYear: new Date().getFullYear(),
   language: "bn",
   theme: "light",
+  seedVersion: window.UbcGardenSeeds.version,
   monthlyData: {}, // Key: "YYYY-MM" -> { flats: [], expenses: [], incomes: [] }
 };
 
@@ -248,7 +249,13 @@ function loadStateFromLocalStorage() {
         parsed.currentYear !== undefined
           ? parsed.currentYear
           : new Date().getFullYear();
-      state.monthlyData = parsed.monthlyData || {};
+      if (parsed.seedVersion !== window.UbcGardenSeeds.version) {
+        state.seedVersion = window.UbcGardenSeeds.version;
+        state.monthlyData = {};
+      } else {
+        state.seedVersion = parsed.seedVersion;
+        state.monthlyData = parsed.monthlyData || {};
+      }
     } catch (e) {
       console.error("Failed to load local storage state", e);
     }
@@ -1132,6 +1139,7 @@ function resetAllData() {
   if (confirm(msg)) {
     localStorage.removeItem("ubc_garden_state");
     state.monthlyData = {};
+    state.seedVersion = window.UbcGardenSeeds.version;
     initMonthData(state.currentYear, state.currentMonth);
     saveStateToLocalStorage();
 
@@ -1150,10 +1158,9 @@ function updatePrintSheet() {
   const dictionary = translations[state.language];
 
   // Headings
-  const currentMonthName =
-    translations[state.language].monthBn[state.currentMonth];
+  const currentMonthName = dictionary.monthBn[state.currentMonth];
   const formattedYear = formatNum(state.currentYear);
-  const monthYearStr = `${currentMonthName}, ${formattedYear}`;
+  const monthYearStr = `${dictionary.month}: ${currentMonthName}, ${formattedYear}`;
 
   let sumElec = 0;
   let sumGuard = 0;
@@ -1179,18 +1186,18 @@ function updatePrintSheet() {
 
     flatsRowsHtml += `
       <tr>
-        <td>${toBnNum(i + 1)}</td>
+        <td>${formatNum(i + 1)}</td>
         <td class="text-left">${fName}</td>
         <td>${fNo}</td>
-        <td>${flat.electricity ? toBnNum(flat.electricity) : ""}</td>
-        <td>${flat.guard ? toBnNum(flat.guard) : ""}</td>
-        <td></td> <!-- Sweeper bill remains blank as in PDF -->
-        <td>${flat.water ? toBnNum(flat.water) : ""}</td>
-        <td>${flat.garage ? toBnNum(flat.garage) : ""}</td>
-        <td>${flat.development ? toBnNum(flat.development) : ""}</td>
-        <td>${flat.festival ? toBnNum(flat.festival) : ""}</td>
-        <td>${toBnNum(flat.total)}</td>
-        <td>${flat.paid ? (state.language === "bn" ? "পরিশোধিত" : "Paid") : ""}</td>
+        <td>${flat.electricity ? formatNum(flat.electricity) : ""}</td>
+        <td>${flat.guard ? formatNum(flat.guard) : ""}</td>
+        <td>${flat.sweeper ? formatNum(flat.sweeper) : ""}</td>
+        <td>${flat.water ? formatNum(flat.water) : ""}</td>
+        <td>${flat.garage ? formatNum(flat.garage) : ""}</td>
+        <td>${flat.development ? formatNum(flat.development) : ""}</td>
+        <td>${flat.festival ? formatNum(flat.festival) : ""}</td>
+        <td>${formatNum(flat.total)}</td>
+        <td>${flat.paid ? dictionary.paid : dictionary.unpaid}</td>
       </tr>
     `;
   });
@@ -1198,15 +1205,15 @@ function updatePrintSheet() {
   // Flat totals row
   const flatsTotalsHtml = `
     <tr class="total-row">
-      <td colspan="3" style="text-align: right; font-weight:700;">মোটঃ</td>
-      <td>${toBnNum(sumElec)}</td>
-      <td>${toBnNum(sumGuard)}</td>
+      <td colspan="3" style="text-align: right; font-weight:700;">${dictionary.total}</td>
+      <td>${formatNum(sumElec)}</td>
+      <td>${formatNum(sumGuard)}</td>
       <td></td>
-      <td>${toBnNum(sumWater)}</td>
-      <td>${toBnNum(sumGarage)}</td>
-      <td>${toBnNum(sumDev)}</td>
-      <td>${toBnNum(sumFest)}</td>
-      <td>${toBnNum(sumTotal)}</td>
+      <td>${formatNum(sumWater)}</td>
+      <td>${formatNum(sumGarage)}</td>
+      <td>${formatNum(sumDev)}</td>
+      <td>${formatNum(sumFest)}</td>
+      <td>${formatNum(sumTotal)}</td>
       <td></td>
     </tr>
   `;
@@ -1221,7 +1228,7 @@ function updatePrintSheet() {
     expRowsHtml += `
       <tr>
         <td class="text-left">${label}</td>
-        <td>${exp.amount ? toBnNum(exp.amount) : ""}</td>
+        <td>${exp.amount ? formatNum(exp.amount) : ""}</td>
         <td></td>
       </tr>
     `;
@@ -1241,8 +1248,8 @@ function updatePrintSheet() {
   // Expense total row
   expRowsHtml += `
     <tr class="total-row">
-      <td class="text-left" style="font-weight:700;">মোট টাকাঃ</td>
-      <td>${toBnNum(summary.totalExpense)}</td>
+      <td class="text-left" style="font-weight:700;">${dictionary.totalExpense}</td>
+      <td>${formatNum(summary.totalExpense)}</td>
       <td></td>
     </tr>
   `;
@@ -1257,7 +1264,7 @@ function updatePrintSheet() {
     incRowsHtml += `
       <tr>
         <td class="text-left">${label}</td>
-        <td>${inc.amount ? toBnNum(inc.amount) : ""}</td>
+        <td>${inc.amount ? formatNum(inc.amount) : ""}</td>
         <td></td>
       </tr>
     `;
@@ -1277,18 +1284,18 @@ function updatePrintSheet() {
   // Aggregate values
   incRowsHtml += `
     <tr class="total-row">
-      <td class="text-left" style="font-weight:700;">মোট আয়ঃ</td>
-      <td>${toBnNum(summary.totalIncome)}</td>
+      <td class="text-left" style="font-weight:700;">${dictionary.totalIncome}</td>
+      <td>${formatNum(summary.totalIncome)}</td>
       <td></td>
     </tr>
     <tr class="total-row">
-      <td class="text-left" style="font-weight:700;">মোট খরচঃ</td>
-      <td>${toBnNum(summary.totalExpense)}</td>
+      <td class="text-left" style="font-weight:700;">${dictionary.totalExpense}</td>
+      <td>${formatNum(summary.totalExpense)}</td>
       <td></td>
     </tr>
     <tr class="total-row">
-      <td class="text-left" style="font-weight:700;">উদ্বৃত্ত টাকাঃ</td>
-      <td>${toBnNum(summary.surplus)}</td>
+      <td class="text-left" style="font-weight:700;">${dictionary.surplus}</td>
+      <td>${formatNum(summary.surplus)}</td>
       <td></td>
     </tr>
   `;
@@ -1296,26 +1303,26 @@ function updatePrintSheet() {
   // Reassemble entire print view HTML structure
   printArea.innerHTML = `
     <div class="print-header">
-      <h1 class="print-title">${translations.bn.brandName}</h1>
-      <p class="print-subtitle">${translations.bn.brandLoc}</p>
-      <p style="font-size:0.95rem; font-weight:700; margin-top:0.25rem;">মাস: ${monthYearStr}</p>
+      <h1 class="print-title">${dictionary.brandName}</h1>
+      <p class="print-subtitle">${dictionary.brandLoc}</p>
+      <p style="font-size:0.95rem; font-weight:700; margin-top:0.25rem;">${monthYearStr}</p>
     </div>
     
     <table class="print-table">
       <thead>
         <tr>
-          <th style="width: 4%;">${translations.bn.no}</th>
-          <th style="width: 25%;">${translations.bn.ownerName}</th>
-          <th style="width: 10%;">${translations.bn.flatNo}</th>
-          <th style="width: 8%;">${translations.bn.electricity}</th>
-          <th style="width: 8%;">${translations.bn.guard}</th>
-          <th style="width: 8%;">${translations.bn.sweeper}</th>
-          <th style="width: 8%;">${translations.bn.water}</th>
-          <th style="width: 8%;">${translations.bn.garage}</th>
-          <th style="width: 8%;">${translations.bn.development}</th>
-          <th style="width: 8%;">${translations.bn.festival}</th>
-          <th style="width: 10%;">${translations.bn.total}</th>
-          <th style="width: 10%;">${translations.bn.signature}</th>
+          <th style="width: 4%;">${dictionary.no}</th>
+          <th style="width: 25%;">${dictionary.ownerName}</th>
+          <th style="width: 10%;">${dictionary.flatNo}</th>
+          <th style="width: 8%;">${dictionary.electricity}</th>
+          <th style="width: 8%;">${dictionary.guard}</th>
+          <th style="width: 8%;">${dictionary.sweeper}</th>
+          <th style="width: 8%;">${dictionary.water}</th>
+          <th style="width: 8%;">${dictionary.garage}</th>
+          <th style="width: 8%;">${dictionary.development}</th>
+          <th style="width: 8%;">${dictionary.festival}</th>
+          <th style="width: 10%;">${dictionary.total}</th>
+          <th style="width: 10%;">${dictionary.signature}</th>
         </tr>
       </thead>
       <tbody>
@@ -1325,15 +1332,15 @@ function updatePrintSheet() {
     </table>
 
     <div class="print-meta-row">
-      <span class="print-sheet-title">${translations.bn.serviceChargeSheetTitle}</span>
-      <span class="print-signature-placeholder">${translations.bn.managerSignature}</span>
+      <span class="print-sheet-title">${dictionary.serviceChargeSheetTitle}</span>
+      <span class="print-signature-placeholder">${dictionary.managerSignature}</span>
     </div>
 
     <div class="print-divider"></div>
 
     <div class="print-accounts-grid">
       <div>
-        <h3 class="print-accounts-title">খরচ</h3>
+        <h3 class="print-accounts-title">${dictionary.expenseStatement}</h3>
         <table class="print-table">
           <tbody>
             ${expRowsHtml}
@@ -1341,7 +1348,7 @@ function updatePrintSheet() {
         </table>
       </div>
       <div>
-        <h3 class="print-accounts-title">আয়</h3>
+        <h3 class="print-accounts-title">${dictionary.incomeStatement}</h3>
         <table class="print-table">
           <tbody>
             ${incRowsHtml}
