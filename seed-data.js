@@ -292,6 +292,7 @@ const initialIncomes = [
 ];
 
 window.UbcGardenSeeds = {
+  version: 2,
   flats: initialFlats,
   expenses: initialExpenses,
   incomes: initialIncomes,
