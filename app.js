@@ -290,6 +290,29 @@ function initMonthData(year, month) {
         incomes: JSON.parse(JSON.stringify(window.UbcGardenSeeds.incomes)),
       };
     }
+  } else {
+    // Ensure all 15 flats from seed data exist in the monthly data
+    const seedFlats = window.UbcGardenSeeds.flats;
+    const currentFlats = state.monthlyData[key].flats;
+    
+    // Check if any flats are missing
+    if (currentFlats.length < seedFlats.length) {
+      // Create a map of existing flats by ID
+      const flatMap = new Map(currentFlats.map(f => [f.id, f]));
+      
+      // Add any missing flats from seed data
+      seedFlats.forEach(seedFlat => {
+        if (!flatMap.has(seedFlat.id)) {
+          currentFlats.push({
+            ...seedFlat,
+            paid: false
+          });
+        }
+      });
+      
+      // Re-sort flats by ID to maintain order
+      currentFlats.sort((a, b) => a.id - b.id);
+    }
   }
   // Make sure dynamic fields are computed
   recalculateTotals(key);
